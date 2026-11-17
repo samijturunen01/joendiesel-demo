@@ -1,0 +1,740 @@
+@import 'tailwindcss';
+
+/*
+ * AVAUTUMISPAINE – design system for the Joen Diesel concept demo.
+ *
+ * Palette: the logo's own charcoal (#2b2a28) and bone (#ececec), deepened for large dark
+ * surfaces, plus "test-oil amber" – the colour of calibration fluid in a measuring glass –
+ * as the single accent. Light sections are printed-manual paper.
+ * Type: Saira (the monogram's squared, engineered voice), IM Fell English SC (the wordmark's
+ * old-style small caps), Martian Mono (part numbers, readouts, labels).
+ */
+
+@theme {
+  --color-ink-950: #121110;
+  --color-ink-900: #1a1917;
+  --color-ink-850: #22211f;
+  --color-ink-800: #2b2a28; /* logo background */
+  --color-ink-700: #3a3936;
+  --color-ink-600: #57554f;
+  --color-steel-400: #94918a;
+  --color-steel-300: #b4b1a9;
+  --color-bone-200: #dad8d1;
+  --color-bone-100: #ecebe6; /* logo foreground, warmed */
+  --color-bone-50: #f4f2ec;
+  --color-paper: #efece4;
+  --color-paper-deep: #e4e0d5;
+  --color-amber-300: #f0c06a;
+  --color-amber-400: #e6a83d; /* test-oil amber – on dark */
+  --color-amber-500: #d08f22;
+  --color-amber-700: #85530b; /* amber text on paper (AA) */
+  --color-signal: #a5361e; /* error text on paper ≥ 5:1 */
+
+  --font-sans: 'Saira Variable', 'Saira', ui-sans-serif, system-ui, 'Segoe UI', sans-serif;
+  --font-mono: 'Martian Mono Variable', 'Martian Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  --font-fell: 'IM Fell English SC', 'Iowan Old Style', Georgia, serif;
+
+  --ease-pressure: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-build: cubic-bezier(0.7, 0, 0.84, 0);
+
+  --breakpoint-xs: 26rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                 */
+/* ------------------------------------------------------------------ */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-padding-top: 6rem;
+    background: var(--color-ink-900);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html:focus-within {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    background: var(--color-ink-900);
+    color: var(--color-bone-100);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    font-weight: 400;
+    font-stretch: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+  }
+  ::selection {
+    background: var(--color-amber-400);
+    color: var(--color-ink-950);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-amber-400);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  .on-paper :focus-visible {
+    outline-color: var(--color-ink-900);
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  img,
+  svg {
+    display: block;
+  }
+  button {
+    cursor: pointer;
+  }
+  [hidden] {
+    display: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Typography                                                           */
+/* ------------------------------------------------------------------ */
+@utility display-xl {
+  font-family: var(--font-sans);
+  font-weight: 820;
+  font-stretch: 70%;
+  font-size: clamp(4.4rem, 11.2vw, 11.5rem);
+  line-height: 0.84;
+  letter-spacing: -0.012em;
+}
+@utility display-l {
+  font-family: var(--font-sans);
+  font-weight: 790;
+  font-stretch: 70%;
+  font-size: clamp(2.75rem, 6.6vw, 6.4rem);
+  line-height: 0.9;
+  letter-spacing: -0.008em;
+}
+@utility display-m {
+  font-family: var(--font-sans);
+  font-weight: 740;
+  font-stretch: 76%;
+  font-size: clamp(2rem, 3.8vw, 3.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.004em;
+}
+@utility display-s {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-stretch: 80%;
+  font-size: clamp(1.45rem, 2.2vw, 2rem);
+  line-height: 1.08;
+}
+@utility lead {
+  font-size: clamp(1.13rem, 1.55vw, 1.38rem);
+  line-height: 1.5;
+  font-weight: 420;
+}
+@utility label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1.4;
+  font-weight: 450;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+@utility fell {
+  font-family: var(--font-fell);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility shell {
+  width: 100%;
+  max-width: 92rem;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 3.5rem);
+}
+
+@layer components {
+/* Long Finnish compounds: allow hyphenation in running text, never in display type. */
+.prose-fi {
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+/* ------------------------------------------------------------------ */
+/* Layout                                                               */
+/* ------------------------------------------------------------------ */
+
+.on-paper {
+  background: var(--color-paper);
+  color: var(--color-ink-900);
+}
+
+/* Paper grain: an inline SVG noise tile, very faint (no image request). */
+.grain {
+  position: relative;
+  isolation: isolate;
+}
+.grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.32;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.32 0 0 0 0 0.27 0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ------------------------------------------------------------------ */
+/* The double frame – taken from the logo (heavy rule + inset hairline) */
+/* ------------------------------------------------------------------ */
+.frame {
+  position: relative;
+  border: 3px solid currentColor;
+}
+.frame::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid currentColor;
+  pointer-events: none;
+  opacity: 0.85;
+}
+.frame-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* ------------------------------------------------------------------ */
+/* Graduated rulers (measuring-glass ticks) used as dividers            */
+/* ------------------------------------------------------------------ */
+.ruler {
+  height: 14px;
+  width: 100%;
+  color: inherit;
+  background-image:
+    linear-gradient(to right, currentColor 1px, transparent 1px),
+    linear-gradient(to right, currentColor 1px, transparent 1px),
+    linear-gradient(currentColor, currentColor);
+  background-size:
+    8px 5px,
+    80px 13px,
+    100% 1px;
+  background-position:
+    0 0,
+    0 0,
+    0 0;
+  background-repeat: repeat-x;
+  opacity: 0.32;
+}
+.ruler-v {
+  width: 14px;
+  height: 100%;
+  background-image:
+    linear-gradient(to bottom, currentColor 1px, transparent 1px),
+    linear-gradient(to bottom, currentColor 1px, transparent 1px),
+    linear-gradient(currentColor, currentColor);
+  background-size:
+    5px 8px,
+    13px 80px,
+    1px 100%;
+  background-repeat: repeat-y;
+  opacity: 0.3;
+}
+
+/* ------------------------------------------------------------------ */
+/* Buttons – fluid rises from the bottom on hover ("pressure fill")     */
+/* ------------------------------------------------------------------ */
+.btn {
+  --btn-fill: var(--color-bone-100);
+  --btn-fill-ink: var(--color-ink-950);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 3.25rem;
+  padding: 0.85rem 1.4rem;
+  font-family: var(--font-sans);
+  font-weight: 650;
+  font-stretch: 90%;
+  font-size: 1.02rem;
+  line-height: 1.15;
+  letter-spacing: 0.005em;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1.5px solid transparent;
+  transition:
+    color 0.35s var(--ease-pressure),
+    border-color 0.35s var(--ease-pressure);
+  text-align: left;
+}
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--btn-fill);
+  transform: scaleY(0);
+  transform-origin: 50% 100%;
+  transition: transform 0.45s var(--ease-pressure);
+}
+.btn:hover::before,
+.btn:focus-visible::before {
+  transform: scaleY(1);
+}
+.btn:hover,
+.btn:focus-visible {
+  color: var(--btn-fill-ink);
+}
+.btn .btn-arrow {
+  transition: transform 0.45s var(--ease-pressure);
+}
+.btn:hover .btn-arrow {
+  transform: translateX(4px);
+}
+.btn-primary {
+  background: var(--color-amber-400);
+  color: var(--color-ink-950);
+}
+.btn-ghost {
+  --btn-fill: var(--color-amber-400);
+  border-color: color-mix(in oklab, currentColor 38%, transparent);
+  color: var(--color-bone-100);
+}
+.btn-ghost:hover {
+  border-color: var(--color-amber-400);
+}
+.on-paper .btn-ghost {
+  --btn-fill: var(--color-ink-900);
+  --btn-fill-ink: var(--color-bone-100);
+  color: var(--color-ink-900);
+}
+.on-paper .btn-ghost:hover {
+  border-color: var(--color-ink-900);
+}
+.btn-dark {
+  --btn-fill: var(--color-amber-400);
+  background: var(--color-ink-900);
+  color: var(--color-bone-100);
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn::before,
+  .btn .btn-arrow {
+    transition: none;
+  }
+}
+
+/* Inline text link with a drawn underline */
+.link {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 100% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  padding-bottom: 1px;
+  transition: background-size 0.4s var(--ease-pressure), color 0.2s;
+}
+.link:hover {
+  color: var(--color-amber-400);
+}
+.on-paper .link:hover {
+  color: var(--color-amber-700);
+}
+
+} /* end @layer components */
+
+/* ------------------------------------------------------------------ */
+/* Motion: hidden states only exist when motion is allowed (pre-paint)  */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  .motion-ok [data-reveal] {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  .motion-ok [data-reveal='fade'] {
+    transform: none;
+  }
+  .motion-ok [data-draw] path,
+  .motion-ok [data-draw] line,
+  .motion-ok [data-draw] circle,
+  .motion-ok [data-draw] rect,
+  .motion-ok [data-draw] polyline,
+  .motion-ok [data-draw] ellipse {
+    stroke-dasharray: var(--len, 1);
+    stroke-dashoffset: var(--len, 1);
+  }
+
+  /* Hero headline: CSS-only line reveal (runs at first paint, no JS dependency) */
+  .motion-ok .hero-line > span {
+    display: inline-block;
+    transform: translateY(105%);
+    animation: line-up 1s var(--ease-pressure) forwards;
+    animation-delay: calc(var(--i, 0) * 90ms + 120ms);
+  }
+  .motion-ok .hero-fade {
+    opacity: 0;
+    animation: fade-up 0.9s var(--ease-pressure) forwards;
+    animation-delay: calc(var(--i, 0) * 90ms + 380ms);
+  }
+}
+.hero-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.04em;
+  margin-bottom: -0.04em;
+}
+@keyframes line-up {
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Logo intro: parts start hidden only while the one-off intro is pending */
+.intro-pending .intro-hide {
+  opacity: 0;
+}
+
+/* Skip link */
+@layer components {
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--color-amber-400);
+  color: var(--color-ink-950);
+  font-weight: 650;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* Visually hidden but readable by assistive technology */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Form controls */
+.field {
+  display: grid;
+  gap: 0.45rem;
+}
+.field-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.input {
+  width: 100%;
+  min-height: 3.1rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--color-bone-50);
+  color: var(--color-ink-950);
+  border: 1.5px solid var(--color-ink-700);
+  border-radius: 0;
+  font: inherit;
+  font-size: 1rem;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.input::placeholder {
+  color: #6f6c66;
+}
+.input:hover {
+  border-color: var(--color-ink-900);
+}
+.input:focus {
+  outline: none;
+  border-color: var(--color-ink-950);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-amber-400) 70%, transparent);
+}
+.input[aria-invalid='true'] {
+  border-color: var(--color-signal);
+  box-shadow: inset 4px 0 0 var(--color-signal);
+}
+select.input {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%231a1917' stroke-width='1.8'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+textarea.input {
+  min-height: 9rem;
+  resize: vertical;
+}
+
+/* ------------------------------------------------------------------ */
+/* Navigation                                                           */
+/* ------------------------------------------------------------------ */
+.nav-link {
+  position: relative;
+  display: inline-block;
+  font-weight: 560;
+  font-stretch: 92%;
+  font-size: 0.98rem;
+  letter-spacing: 0.005em;
+  transition: color 0.2s;
+}
+.nav-link:hover {
+  color: var(--color-amber-300);
+}
+.mobile-link {
+  display: block;
+  padding: 1rem 0;
+  font-weight: 760;
+  font-stretch: 74%;
+  font-size: 2.1rem;
+  line-height: 1;
+}
+
+/* ------------------------------------------------------------------ */
+/* Laitehaku – measuring glasses                                         */
+/* ------------------------------------------------------------------ */
+.finder-glasses {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: clamp(0.5rem, 1.4vw, 1.25rem);
+  align-items: start;
+}
+.finder-hit {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 0.9rem;
+  text-align: left;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+}
+.finder-glass {
+  position: relative;
+  display: block;
+  height: clamp(13rem, 24vw, 18rem);
+  border: 1.5px solid var(--color-ink-900);
+  border-top: 0;
+  border-radius: 0 0 12px 12px;
+  background: color-mix(in oklab, var(--color-bone-50) 70%, transparent);
+  overflow: hidden;
+  transition:
+    transform 0.4s var(--ease-pressure),
+    box-shadow 0.4s var(--ease-pressure);
+}
+/* flared lip */
+.finder-glass::before,
+.finder-glass::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 8px;
+  height: 1.5px;
+  background: var(--color-ink-900);
+}
+.finder-glass::before {
+  left: -1px;
+}
+.finder-glass::after {
+  right: -1px;
+}
+.finder-ticks {
+  position: absolute;
+  left: 0;
+  top: 14%;
+  bottom: 6%;
+  width: 40%;
+  background-image:
+    linear-gradient(to bottom, var(--color-ink-900) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-ink-900) 1px, transparent 1px);
+  background-size:
+    30% 10%,
+    60% 50%;
+  background-repeat: repeat-y;
+  opacity: 0.45;
+  z-index: 2;
+}
+.finder-cal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 74%;
+  border-top: 1px dashed var(--color-ink-900);
+  opacity: 0.4;
+  z-index: 2;
+}
+.finder-fluid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, var(--color-amber-300), var(--color-amber-400) 22%, var(--color-amber-500));
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.55);
+  transition: height 1s var(--ease-pressure);
+  z-index: 1;
+}
+.finder-text {
+  display: grid;
+  gap: 0.3rem;
+  min-height: 4.6rem;
+  align-content: start;
+}
+.finder-name {
+  font-weight: 700;
+  font-stretch: 78%;
+  font-size: clamp(0.95rem, 1.2vw, 1.12rem);
+  line-height: 1.1;
+}
+.finder-caps {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.45;
+  color: var(--color-ink-600);
+}
+.finder-item.is-off .finder-name {
+  color: var(--color-ink-600);
+}
+.finder-item.is-off .finder-glass {
+  border-style: dashed;
+  border-color: color-mix(in oklab, var(--color-ink-900) 45%, transparent);
+}
+.finder-item.is-on .finder-hit {
+  cursor: pointer;
+}
+.finder-item.is-on .finder-hit:hover .finder-glass {
+  transform: translateY(-4px);
+}
+.finder-item.is-selected .finder-glass {
+  box-shadow:
+    0 0 0 3px var(--color-paper),
+    0 0 0 5px var(--color-ink-900);
+}
+.finder-item.is-selected .finder-name {
+  color: var(--color-amber-700);
+}
+.finder-hit:focus-visible {
+  outline: 2px solid var(--color-ink-900);
+  outline-offset: 6px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .finder-fluid,
+  .finder-glass {
+    transition: none;
+  }
+}
+/* Phones: the glasses lie on their side */
+@media (max-width: 767px) {
+  .finder-glasses {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+  .finder-hit {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    align-items: center;
+    gap: 0.9rem;
+  }
+  .finder-glass {
+    order: 2;
+    height: 2.4rem;
+    border: 1.5px solid var(--color-ink-900);
+    border-left: 0;
+    border-radius: 0 10px 10px 0;
+  }
+  .finder-glass::before,
+  .finder-glass::after {
+    width: 1.5px;
+    height: 8px;
+    left: 0;
+    right: auto;
+  }
+  .finder-glass::before {
+    top: -1px;
+  }
+  .finder-glass::after {
+    top: auto;
+    bottom: -1px;
+  }
+  .finder-ticks {
+    top: auto;
+    bottom: 0;
+    left: 8%;
+    right: 6%;
+    width: auto;
+    height: 40%;
+    background-image:
+      linear-gradient(to right, var(--color-ink-900) 1px, transparent 1px),
+      linear-gradient(to right, var(--color-ink-900) 1px, transparent 1px);
+    background-size:
+      10% 30%,
+      50% 60%;
+    background-repeat: repeat-x;
+    background-position: 0 100%;
+  }
+  .finder-cal {
+    top: 0;
+    bottom: 0;
+    left: 74%;
+    right: auto;
+    border-top: 0;
+    border-left: 1px dashed var(--color-ink-900);
+  }
+  .finder-fluid {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: auto;
+    height: auto !important;
+    width: var(--w, 0%);
+    transition-property: width;
+    background: linear-gradient(to right, var(--color-amber-500), var(--color-amber-400) 78%, var(--color-amber-300));
+    box-shadow: inset -2px 0 0 rgb(255 255 255 / 0.55);
+  }
+  .finder-text {
+    order: 1;
+    min-height: 0;
+  }
+  .finder-item.is-on .finder-hit:hover .finder-glass {
+    transform: none;
+  }
+}
+} /* end @layer components */
