@@ -25,7 +25,7 @@ for this demo where the usage and publication permission has been established. T
 faithfully (shapes, proportions, counters and the rough edges of the wordmark unchanged; trace verified
 against the originals, ≈ 0.3 % of pixels differ, all on anti-aliased edges) and is only shown in a demo
 that is clearly labelled as unofficial and kept out of search engines (noindex, robots Disallow).
-**Deployment status of the logo: see docs/PROJECT_STATUS.md.**
+**Publication: on 17.11.2026 the user (Hades Design) confirmed that permission is established to publish the logo in this public, noindex GitHub Pages demo.** The permission covers this demo only.
 
 ## Not used (rights not established)
 
