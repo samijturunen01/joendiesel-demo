@@ -68,9 +68,14 @@ export function Header() {
   const servicesActive = pathname.startsWith(pages.services.path);
 
   return (
+    <>
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-500 ${
-        scrolled || menuOpen ? 'bg-ink-900/92 shadow-[0_1px_0_rgb(236_235_230/0.08)] backdrop-blur-md' : 'bg-transparent'
+        menuOpen
+          ? 'bg-ink-900 shadow-[0_1px_0_rgb(236_235_230/0.08)]'
+          : scrolled
+            ? 'bg-ink-900/92 shadow-[0_1px_0_rgb(236_235_230/0.08)] backdrop-blur-md'
+            : 'bg-transparent'
       }`}
     >
       <div className="shell flex h-16 items-center justify-between gap-6 lg:h-20">
@@ -103,7 +108,8 @@ export function Header() {
                       aria-expanded={subOpen}
                       aria-controls={subId}
                       aria-label="Näytä palvelut"
-                      onClick={() => setSubOpen((v) => !v)}
+                      // keyboard (detail 0) toggles; a mouse click must not close a menu its hover just opened
+                      onClick={(e) => setSubOpen((v) => (e.detail === 0 ? !v : true))}
                     >
                       <ChevronDown aria-hidden="true" className={`size-4 transition-transform ${subOpen ? 'rotate-180' : ''}`} />
                     </button>
@@ -178,11 +184,13 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile menu */}
+    </header>
+
+      {/* Mobile menu – outside <header>: a backdrop-filter there would become the containing block of this fixed panel */}
       <div
         id={menuId}
         ref={panel}
-        className={`fixed inset-x-0 top-16 bottom-0 overflow-y-auto bg-ink-900 transition-[opacity,visibility] duration-300 lg:hidden ${
+        className={`fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto bg-ink-900 transition-[opacity,visibility] duration-300 lg:hidden ${
           menuOpen ? 'visible opacity-100' : 'invisible opacity-0'
         }`}
         aria-hidden={!menuOpen}
@@ -232,6 +240,6 @@ export function Header() {
           </div>
         </nav>
       </div>
-    </header>
+    </>
   );
 }

@@ -13,7 +13,7 @@
     "build:client": "vite build",
     "build:ssr": "vite build --ssr src/entry-server.tsx --outDir dist-ssr",
     "prerender": "node scripts/prerender.mjs",
-    "preview": "node scripts/serve-dist.mjs",
+    "preview": "node scripts/serve-dist.mjs 4173",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "node scripts/vitest.mjs run",
@@ -34,6 +34,7 @@
     "react-router": "^8.5.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.65.1",
     "@tailwindcss/vite": "^4.3.5",
