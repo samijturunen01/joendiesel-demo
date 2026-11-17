@@ -178,7 +178,8 @@ test.describe('Laitehaku → tarjouspyyntö', () => {
   test('form validates and never claims delivery; no request leaves the site', async ({ page }) => {
     await skipIntro(page);
     const external: string[] = [];
-    page.on('request', (r) => !r.url().startsWith('http://localhost') && external.push(r.url()));
+    const origin = new URL(page.url() === 'about:blank' ? (test.info().project.use.baseURL ?? 'http://localhost') : page.url()).origin;
+    page.on('request', (r) => !r.url().startsWith(origin) && external.push(r.url()));
     await page.goto('yhteystiedot#tarjouspyynto', { waitUntil: 'networkidle' });
     const form = page.locator('#tarjouspyynto');
     await form.getByRole('button', { name: /Kokeile lähetystä/ }).click();

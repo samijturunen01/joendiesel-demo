@@ -26,7 +26,7 @@ npm run dev          # http://localhost:5173/joendiesel-demo/
 npm run check        # typecheck + lint + unit tests + production build
 npm run build        # dist/ (client build → SSR build → prerender)
 npm run preview      # serve dist/ like GitHub Pages: http://localhost:4173/joendiesel-demo/
-npm run test:e2e     # Playwright (uses installed Chrome) – needs `npm run build` and a running preview
+npm run test:e2e     # Playwright + axe (installed Chrome) against dist/; E2E_BASE_URL=<live url/> tests the deployed site
 npm run logo         # re-derive the logo vectors from assets-src/brand/*.jpg
 node scripts/build-icons.mjs   # favicon + apple-touch-icon from the logo vectors
 node scripts/build-og.mjs      # public/og-kuva.png
