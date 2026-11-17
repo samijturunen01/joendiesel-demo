@@ -1,5 +1,6 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import { useLocation } from 'react-router';
+import { LogoSprite } from '@/components/brand/LogoSprite';
 import { ScrollTrigger } from '@/lib/gsap';
 import { Footer } from './Footer';
 import { Header } from './Header';
@@ -34,6 +35,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
   return (
     <>
+      <LogoSprite />
       <a href="#sisalto" className="skip-link">
         Siirry sisältöön
       </a>

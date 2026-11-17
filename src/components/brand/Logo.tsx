@@ -1,4 +1,5 @@
 import { logoGeometry as g } from '@/brand/logoGeometry';
+import { spriteId } from '@/brand/spriteIds';
 
 /*
  * Joen Diesel Oy's authentic logo, rebuilt as vectors from the original bitmaps
@@ -22,8 +23,8 @@ export function FrameRects({ className }: { className?: string }) {
 export function MonogramLetters({ className }: { className?: string }) {
   return (
     <g className={className} fill="currentColor">
-      <path d={g.monogram.j} fillRule="evenodd" />
-      <path d={g.monogram.d} fillRule="evenodd" />
+      <use href={`#${spriteId.j}`} />
+      <use href={`#${spriteId.d}`} />
     </g>
   );
 }
@@ -35,7 +36,7 @@ export function WordmarkStacked({ letterClassName }: { letterClassName?: string 
     <g transform={`matrix(${t.s} 0 0 ${t.s} ${t.tx} ${t.ty})`} fill="currentColor">
       {g.word.map((l, idx) => (
         <g key={idx} transform={`translate(${+(l.stacked.dx / t.s).toFixed(2)} ${+(l.stacked.dy / t.s).toFixed(2)})`}>
-          <path className={letterClassName} d={l.d} fillRule="evenodd" data-word={l.word} />
+          <use className={letterClassName} href={`#${spriteId.letter(idx)}`} data-word={l.word} />
         </g>
       ))}
     </g>
@@ -57,8 +58,8 @@ export function LogoWide({ className, title = 'Joen Diesel Oy' }: LogoProps) {
         <MonogramLetters />
       </g>
       <g fill="currentColor">
-        {g.word.map((l, idx) => (
-          <path key={idx} d={l.d} fillRule="evenodd" />
+        {g.word.map((_, idx) => (
+          <use key={idx} href={`#${spriteId.letter(idx)}`} />
         ))}
       </g>
     </svg>

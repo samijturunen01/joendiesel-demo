@@ -738,3 +738,23 @@ textarea.input {
   }
 }
 } /* end @layer components */
+
+/* Homepage hero: phones stack title → logo → text; large screens put the logo beside the text,
+   with flexible rows above and below so the text block is vertically centred. */
+@layer components {
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'title' 'art' 'lead' 'cta' 'owners' 'facts';
+    align-content: center;
+  }
+  @media (min-width: 64rem) {
+    .hero-grid {
+      column-gap: 2.5rem;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      grid-template-rows: 1fr auto auto auto auto 1fr auto;
+      grid-template-areas: '. art' 'title art' 'lead art' 'cta art' 'owners art' '. art' 'facts facts';
+      align-content: stretch;
+    }
+  }
+}
